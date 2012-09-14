@@ -2,6 +2,12 @@
 
 A Heroku client plugin for the `heroku certs:*` namespace.
 
+## Installation
+
+    $ heroku plugins:install https://github.com/heroku/heroku-ssl-doctor.git
+
+## About
+
 Heroku SSL Doctor makes it easy to manage your SSL Endpoints by figuring out all the certificate stuff automagically.
 
 - The certificate trust chain will be ordered and completed.
@@ -24,3 +30,8 @@ To see the chain and key that would be uploaded by add/update, use:
 Something's broken? Bypass all the magic:
 
     $ heroku certs:add path-to-crt path-to-key --bypass
+
+## Credits
+
+[heroku-ssl-doctor](https://github.com/heroku/heroku-ssl-doctor)
+by [@kch](https://github.com/kch)
