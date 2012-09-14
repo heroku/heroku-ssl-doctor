@@ -23,4 +23,4 @@ To see the chain and key that would be uploaded by add/update, use:
 
 Something's broken? Bypass all the magic:
 
-    $ heroku certs:add path-to-crt path-to-key
+    $ heroku certs:add path-to-crt path-to-key --bypass
