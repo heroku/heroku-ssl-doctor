@@ -12,7 +12,7 @@ class Heroku::Command::Certs
   #
   # Print the ordered and complete chain for the given certificate.
   #
-  # Optional intermediates certificates may be given too, and will
+  # Optional intermediate certificates may be given too, and will
   # be used during chain resolution.
   #
   def chain
