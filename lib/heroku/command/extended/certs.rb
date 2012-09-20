@@ -1,12 +1,21 @@
-require "rest-client"
-require "json"
 require "heroku/command/certs" unless defined? Heroku::Command::Certs
-
-SSL_DOCTOR_URL = ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/"
-SSL_DOCTOR     = RestClient::Resource.new SSL_DOCTOR_URL
 
 class Heroku::Command::Certs
   class UsageError < StandardError; end
+
+  alias_method :original_initialize, :initialize
+  def initialize(*args)
+    original_initialize(*args)
+    %w[ json rest-client ].each do |gem_name|
+      begin
+        require gem_name
+      rescue LoadError
+        error("Install the #{gem_name} gem to use certs commands:\ngem install #{gem_name}")
+      end
+    end
+    @ssl_doctor_url = ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/"
+    @ssl_doctor     = RestClient::Resource.new @ssl_doctor_url
+  end
 
   # certs:chain PEM [PEM ...]
   #
@@ -77,7 +86,7 @@ class Heroku::Command::Certs
     action_text ||= "Resolving trust chain"
     action(action_text) do
       input = args.map { |arg| File.read(arg) rescue error("Unable to read #{args[0]} file") }.join("\n")
-      SSL_DOCTOR[path].post(input)
+      @ssl_doctor[path].post(input)
     end
   rescue RestClient::BadRequest, RestClient::UnprocessableEntity => e
     error(e.response.body)
