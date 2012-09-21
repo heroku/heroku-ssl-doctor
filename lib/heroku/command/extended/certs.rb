@@ -113,4 +113,8 @@ class Heroku::Command::Certs
     options[:bypass] ? read_crt_and_key_bypassing_ssl_doctor : read_crt_and_key_through_ssl_doctor
   end
 
+  def display(msg = "", new_line = true)
+    super if $stdout.tty?
+  end
+
 end
