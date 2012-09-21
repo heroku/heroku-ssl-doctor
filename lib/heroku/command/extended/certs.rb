@@ -1,3 +1,6 @@
+require "rubygems"
+gem "rest-client"
+gem "json"
 require "rest-client"
 require "json"
 require "heroku/command/certs" unless defined? Heroku::Command::Certs
