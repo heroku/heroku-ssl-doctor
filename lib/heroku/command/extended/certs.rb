@@ -10,8 +10,7 @@ class Heroku::Command::Certs
       begin
         require gem_name
       rescue LoadError
-        require 'rbconfig'
-        error("Install the #{gem_name} gem to use certs commands:\n#{Config::CONFIG["bindir"]}/gem install #{gem_name}")
+        error("Install the #{gem_name} gem to use certs commands:\ngem install #{gem_name}")
       end
     end
     @ssl_doctor_url = ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/"
