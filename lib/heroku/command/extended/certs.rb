@@ -1,22 +1,9 @@
 require "heroku/command/certs" unless defined? Heroku::Command::Certs
 
 class Heroku::Command::Certs
-  class UsageError < StandardError; end
+  SSL_DOCTOR = RestClient::Resource.new(ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/")
 
-  alias_method :original_initialize, :initialize
-  def initialize(*args)
-    original_initialize(*args)
-    %w[ json rest-client ].each do |gem_name|
-      begin
-        require gem_name
-      rescue LoadError
-        require 'rbconfig'
-        error("Install the #{gem_name} gem to use certs commands:\n#{Config::CONFIG["bindir"]}/gem install #{gem_name}")
-      end
-    end
-    @ssl_doctor_url = ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/"
-    @ssl_doctor     = RestClient::Resource.new @ssl_doctor_url
-  end
+  class UsageError < StandardError; end
 
   # certs:chain PEM [PEM ...]
   #
@@ -87,7 +74,7 @@ class Heroku::Command::Certs
     action_text ||= "Resolving trust chain"
     action(action_text) do
       input = args.map { |arg| File.read(arg) rescue error("Unable to read #{args[0]} file") }.join("\n")
-      @ssl_doctor[path].post(input, :content_type => "application/octet-stream")
+      SSL_DOCTOR[path].post(input, :content_type => "application/octet-stream")
     end
   rescue RestClient::BadRequest, RestClient::UnprocessableEntity => e
     error(e.response.body)
