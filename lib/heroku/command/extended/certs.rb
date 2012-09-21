@@ -85,7 +85,7 @@ class Heroku::Command::Certs
 
   def read_crt_and_key_through_ssl_doctor(action_text = nil)
     crt_and_key = post_to_ssl_doctor("resolve-chain-and-key", action_text)
-    JSON.parse(crt_and_key).values_at("crt", "key")
+    JSON.parse(crt_and_key).values_at("pem", "key")
   end
 
   def read_crt_through_ssl_doctor(action_text = nil)
