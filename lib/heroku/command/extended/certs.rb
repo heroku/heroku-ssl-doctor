@@ -86,7 +86,7 @@ class Heroku::Command::Certs
     action_text ||= "Resolving trust chain"
     action(action_text) do
       input = args.map { |arg| File.read(arg) rescue error("Unable to read #{args[0]} file") }.join("\n")
-      @ssl_doctor[path].post(input)
+      @ssl_doctor[path].post(input, :content_type => "application/octet-stream")
     end
   rescue RestClient::BadRequest, RestClient::UnprocessableEntity => e
     error(e.response.body)
