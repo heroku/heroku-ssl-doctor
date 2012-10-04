@@ -1,4 +1,5 @@
 require "heroku/command/certs" unless defined? Heroku::Command::Certs
+require "vendor/heroku/okjson"
 
 class Heroku::Command::Certs
   SSL_DOCTOR = RestClient::Resource.new(ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/")
@@ -82,7 +83,7 @@ class Heroku::Command::Certs
 
   def read_crt_and_key_through_ssl_doctor(action_text = nil)
     crt_and_key = post_to_ssl_doctor("resolve-chain-and-key", action_text)
-    JSON.parse(crt_and_key).values_at("pem", "key")
+    Heroku::OkJson.decode(crt_and_key).values_at("pem", "key")
   end
 
   def read_crt_through_ssl_doctor(action_text = nil)

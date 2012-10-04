@@ -1,5 +1,5 @@
 require 'rbconfig'
-%w[ json rest-client ].each do |gem_name|
+%w[ rest-client ].each do |gem_name|
   begin
     require gem_name
   rescue LoadError
