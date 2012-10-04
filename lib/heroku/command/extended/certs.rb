@@ -1,5 +1,6 @@
 require "heroku/command/certs" unless defined? Heroku::Command::Certs
 require "vendor/heroku/okjson"
+require "rest_client"
 
 class Heroku::Command::Certs
   SSL_DOCTOR = RestClient::Resource.new(ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/")
