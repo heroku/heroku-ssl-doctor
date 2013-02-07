@@ -3,7 +3,7 @@ require "vendor/heroku/okjson"
 require "excon"
 
 class Heroku::Command::Certs
-  SSL_DOCTOR = Excon.new(ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/")
+  SSL_DOCTOR = Excon.new(ENV["SSL_DOCTOR_URL"] || "https://ssl-doctor.herokuapp.com/") unless defined?(SSL_DOCTOR)
 
   class UsageError < StandardError; end
 
